@@ -1,0 +1,695 @@
+@page "/Admin/Bills"
+@model BillsModel
+
+@{
+    ViewData["Title"] = "Bill Management";
+}
+
+<div class="container py-4">
+
+    <div class="row">
+
+        <!-- ADMIN SIDEBAR -->
+        <div class="col-lg-3 mb-4">
+            <partial name="_AdminSidebar" />
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-lg-9">
+
+            <!-- HEADER -->
+            <div class="d-flex justify-content-between align-items-start mb-4">
+
+                <div>
+                    <h3 class="fw-bold mb-1">
+                        Bill Management
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Create and manage customer water bills.
+                    </p>
+                </div>
+
+                <a href="#createBill"
+                   class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-2"></i>
+                    Generate New Bill
+                </a>
+
+            </div>
+
+
+            <!-- SUCCESS MESSAGE -->
+            @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+            {
+                <div class="alert alert-success shadow-sm">
+                    <i class="bi bi-check-circle me-2"></i>
+                    @Model.SuccessMessage
+                </div>
+            }
+
+
+            <!-- ERROR MESSAGE -->
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger shadow-sm">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    @Model.ErrorMessage
+                </div>
+            }
+
+
+            <!-- SUMMARY CARDS -->
+            <div class="row g-3 mb-4">
+
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100 border-0">
+                        <small class="text-muted">
+                            Total Bills
+                        </small>
+
+                        <div class="h4 fw-bold mb-0">
+                            @Model.TotalBills
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100 border-0">
+                        <small class="text-muted">
+                            Pending Bills
+                        </small>
+
+                        <div class="h4 fw-bold text-warning mb-0">
+                            @Model.PendingBills
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100 border-0">
+                        <small class="text-muted">
+                            Paid Bills
+                        </small>
+
+                        <div class="h4 fw-bold text-success mb-0">
+                            @Model.PaidBills
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100 border-0">
+                        <small class="text-muted">
+                            Overdue Bills
+                        </small>
+
+                        <div class="h4 fw-bold text-danger mb-0">
+                            @Model.OverdueBills
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- CREATE BILL -->
+            <div class="card shadow-sm border-0 mb-4"
+                 id="createBill">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center mb-4">
+
+                        <div>
+                            <h5 class="fw-bold mb-1">
+                                Create New Bill
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                Create a bill for a registered customer.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <form method="post"
+                          asp-page-handler="CreateBill">
+
+                        <div class="row g-3">
+
+                            <!-- CUSTOMER -->
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+                                    Customer
+                                </label>
+
+                                <select asp-for="NewCustomerId"
+                                        class="form-select"
+                                        required>
+
+                                    <option value="0">
+                                        Select Customer
+                                    </option>
+
+                                    @foreach (var customer in Model.Customers)
+                                    {
+                                        <option value="@customer.Id">
+                                            @customer.FullName
+                                            -
+                                            @customer.AccountNumber
+                                        </option>
+                                    }
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- BILLING PERIOD -->
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+                                    Billing Period
+                                </label>
+
+                                <input asp-for="NewBillingPeriod"
+                                       class="form-control"
+                                       placeholder="e.g. September 2026"
+                                       required />
+
+                            </div>
+
+
+                            <!-- PREVIOUS READING -->
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+                                    Previous Meter Reading
+                                </label>
+
+                                <input asp-for="NewPreviousReading"
+                                       type="number"
+                                       min="0"
+                                       class="form-control"
+                                       required />
+
+                            </div>
+
+
+                            <!-- CURRENT READING -->
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+                                    Current Meter Reading
+                                </label>
+
+                                <input asp-for="NewCurrentReading"
+                                       type="number"
+                                       min="0"
+                                       class="form-control"
+                                       required />
+
+                            </div>
+
+
+                            <!-- USAGE CHARGE -->
+                            <div class="col-md-4">
+
+                                <label class="form-label fw-semibold">
+                                    Usage Charge
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        LKR
+                                    </span>
+
+                                    <input asp-for="NewUsageCharge"
+                                           type="number"
+                                           min="0"
+                                           step="0.01"
+                                           class="form-control"
+                                           required />
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- SERVICE CHARGE -->
+                            <div class="col-md-4">
+
+                                <label class="form-label fw-semibold">
+                                    Service Charge
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        LKR
+                                    </span>
+
+                                    <input asp-for="NewServiceCharge"
+                                           type="number"
+                                           min="0"
+                                           step="0.01"
+                                           class="form-control"
+                                           required />
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- OTHER CHARGES -->
+                            <div class="col-md-4">
+
+                                <label class="form-label fw-semibold">
+                                    Other Charges
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        LKR
+                                    </span>
+
+                                    <input asp-for="NewOtherCharges"
+                                           type="number"
+                                           min="0"
+                                           step="0.01"
+                                           class="form-control"
+                                           required />
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- TOTAL -->
+                            <div class="col-12">
+
+                                <div class="bg-light rounded p-3 mt-2">
+
+                                    <div class="d-flex justify-content-between">
+
+                                        <span class="fw-semibold">
+                                            Total Bill Amount
+                                        </span>
+
+                                        <span class="fw-bold text-primary fs-5">
+                                            LKR
+                                            <span id="totalAmount">
+                                                @Model.NewTotalAmount.ToString("N2")
+                                            </span>
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BUTTONS -->
+                            <div class="col-12">
+
+                                <button type="submit"
+                                        class="btn btn-primary px-4">
+
+                                    <i class="bi bi-file-earmark-plus me-2"></i>
+                                    Create Bill
+
+                                </button>
+
+                                <button type="reset"
+                                        class="btn btn-outline-secondary ms-2">
+
+                                    Clear
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- SEARCH / FILTER -->
+            <div class="card mb-4 shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <form method="get"
+                          class="row g-2 align-items-end">
+
+                        <div class="col-md-4">
+
+                            <label class="form-label small">
+                                Search Customer / Account
+                            </label>
+
+                            <input asp-for="SearchTerm"
+                                   class="form-control"
+                                   placeholder="Name or account number" />
+
+                        </div>
+
+
+                        <div class="col-md-3">
+
+                            <label class="form-label small">
+                                Billing Period
+                            </label>
+
+                            <select asp-for="BillingPeriodFilter"
+                                    class="form-select">
+
+                                <option value="All">
+                                    All
+                                </option>
+
+                                @foreach (var period in Model.BillingPeriods)
+                                {
+                                    <option value="@period">
+                                        @period
+                                    </option>
+                                }
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-3">
+
+                            <label class="form-label small">
+                                Payment Status
+                            </label>
+
+                            <select asp-for="StatusFilter"
+                                    class="form-select">
+
+                                <option value="All">
+                                    All
+                                </option>
+
+                                <option value="Paid">
+                                    Paid
+                                </option>
+
+                                <option value="Pending">
+                                    Pending
+                                </option>
+
+                                <option value="Overdue">
+                                    Overdue
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-2 d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Search
+                            </button>
+
+                            <a class="btn btn-outline-secondary"
+                               href="/Admin/Bills">
+                                Clear
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- BILL TABLE -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h6 class="fw-bold mb-0">
+                            Customer Bills
+                        </h6>
+
+                        <small class="text-muted">
+                            @Model.Bills.Count record(s)
+                        </small>
+
+                    </div>
+
+
+                    <div class="table-responsive mt-3">
+
+                        <table class="table table-sm align-middle">
+
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th>Bill ID</th>
+                                    <th>Customer ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Billing Period</th>
+                                    <th>Prev</th>
+                                    <th>Curr</th>
+                                    <th>Units</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @if (Model.Bills.Any())
+                                {
+                                    @foreach (var b in Model.Bills)
+                                    {
+                                        <tr>
+
+                                            <td>
+                                                @b.BillId
+                                            </td>
+
+                                            <td>
+                                                @b.CustomerId
+                                            </td>
+
+                                            <td class="fw-semibold">
+                                                @b.CustomerName
+                                            </td>
+
+                                            <td>
+                                                @b.BillingPeriod
+                                            </td>
+
+                                            <td>
+                                                @b.PreviousReading
+                                            </td>
+
+                                            <td>
+                                                @b.CurrentReading
+                                            </td>
+
+                                            <td>
+                                                @b.UnitsConsumed
+                                            </td>
+
+                                            <td class="fw-semibold">
+                                                LKR
+                                                @b.BillAmount.ToString("N2")
+                                            </td>
+
+                                            <td>
+                                                @b.DueDate.ToString("dd MMM yyyy")
+                                            </td>
+
+                                            <td>
+
+                                                @if (b.Status == "Paid")
+                                                {
+                                                    <span class="badge bg-success">
+                                                        Paid
+                                                    </span>
+                                                }
+                                                else if (b.Status == "Pending")
+                                                {
+                                                    <span class="badge bg-warning text-dark">
+                                                        Pending
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger">
+                                                        Overdue
+                                                    </span>
+                                                }
+
+                                            </td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+
+                                        <td colspan="10"
+                                            class="text-center text-muted py-4">
+
+                                            No bills found.
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- INFO -->
+            <div class="card shadow-sm border-0 mt-4">
+
+                <div class="card-body">
+
+                    <h6 class="fw-bold">
+                        Billing Management
+                    </h6>
+
+                    <p class="text-muted small mb-0">
+                        Administrators can create bills for registered
+                        customers using their meter readings and applicable
+                        charges. Created bills are stored in the NWSDB
+                        database and become available to the relevant
+                        customer for online payment.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        function calculateTotal() {
+
+            const usage =
+                parseFloat(
+                    document.getElementById(
+                        "NewUsageCharge"
+                    )?.value
+                ) || 0;
+
+            const service =
+                parseFloat(
+                    document.getElementById(
+                        "NewServiceCharge"
+                    )?.value
+                ) || 0;
+
+            const other =
+                parseFloat(
+                    document.getElementById(
+                        "NewOtherCharges"
+                    )?.value
+                ) || 0;
+
+            const total =
+                usage + service + other;
+
+            const totalElement =
+                document.getElementById(
+                    "totalAmount"
+                );
+
+            if (totalElement) {
+
+                totalElement.textContent =
+                    total.toLocaleString(
+                        "en-LK",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    );
+            }
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const fields = [
+                    "NewUsageCharge",
+                    "NewServiceCharge",
+                    "NewOtherCharges"
+                ];
+
+                fields.forEach(function (id) {
+
+                    const element =
+                        document.getElementById(id);
+
+                    if (element) {
+
+                        element.addEventListener(
+                            "input",
+                            calculateTotal
+                        );
+
+                    }
+
+                });
+
+                calculateTotal();
+
+            }
+        );
+
+    </script>
+
+}

@@ -1,0 +1,67 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="text-center mb-3">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-2">
+                            <path d="M12 2C8 8 6 11 6 14a6 6 0 0012 0c0-3-2-6-6-12z" fill="#0b6fb8"/>
+                            <circle cx="12" cy="16" r="2" fill="#ffffff"/>
+                        </svg>
+                        <h3 class="mb-0 fw-bold text-primary">NWSDB Customer Login</h3>
+                        <p class="text-muted small">Access your account to view bills, payments and usage.</p>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Message))
+                    {
+                        <div class="alert alert-info">@Model.Message</div>
+                    }
+
+                    <form method="post" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Identifier" class="form-label">Customer ID / Account Number or Email</label>
+                            <input asp-for="Identifier" class="form-control" placeholder="AC-12345678 or name@gmail.com" />
+                            <span asp-validation-for="Identifier" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Password</label>
+                            <input asp-for="Password" class="form-control" type="password" placeholder="Your password" />
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="form-check">
+                                <input asp-for="RememberMe" class="form-check-input" />
+                                <label asp-for="RememberMe" class="form-check-label">Remember me</label>
+                            </div>
+                            <div>
+                                <a href="/ForgotPassword" class="small">Forgot Password?</a>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                                <a class="btn btn-link text-muted" href="/">Clear</a>
+                            </div>
+                            <div class="small text-muted">Don't have an account? <a href="/Register">Register</a></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

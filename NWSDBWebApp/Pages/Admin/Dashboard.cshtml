@@ -1,0 +1,154 @@
+@page "/Admin/Dashboard"
+@model AdminDashboardModel
+
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-3 mb-4">
+            <partial name="_AdminSidebar" />
+        </div>
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h3 class="fw-bold">Admin Dashboard</h3>
+                    <p class="text-muted mb-0">Manage NWSDB customer accounts, bills, payments and water usage.</p>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-primary">Administrator</span>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Total Customers</small>
+                        <div class="h4 fw-bold">@Model.TotalCustomers</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Pending Bills</small>
+                        <div class="h4 fw-bold text-warning">@Model.PendingBills</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Total Payments</small>
+                        <div class="h4 fw-bold">@Model.TotalPayments</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Total Water Usage</small>
+                        <div class="h4 fw-bold">@Model.TotalUsage m³</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold">Quick Management</h6>
+                    <div class="row g-3 mt-2">
+                        <div class="col-sm-6 col-md-3">
+                            <a class="card h-100 text-decoration-none" href="/Admin/Customers">
+                                <div class="card-body">
+                                    <h6 class="fw-bold">Manage Customers</h6>
+                                    <p class="text-muted small">View and edit customer accounts.</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <a class="card h-100 text-decoration-none" href="/Admin/Bills">
+                                <div class="card-body">
+                                    <h6 class="fw-bold">Manage Bills</h6>
+                                    <p class="text-muted small">Generate and review bills.</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <a class="card h-100 text-decoration-none" href="/Admin/Payments">
+                                <div class="card-body">
+                                    <h6 class="fw-bold">Manage Payments</h6>
+                                    <p class="text-muted small">Verify and reconcile payments.</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <a class="card h-100 text-decoration-none" href="/Admin/Usage">
+                                <div class="card-body">
+                                    <h6 class="fw-bold">Manage Usage</h6>
+                                    <p class="text-muted small">Review meter and usage records.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="fw-bold">Recent Activity</h6>
+                            <div class="table-responsive mt-3">
+                                <table class="table table-sm">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Activity</th>
+                                            <th>Customer</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var a in Model.RecentActivities)
+                                        {
+                                            <tr>
+                                                <td>@a.Date.ToString("dd MMM yyyy")</td>
+                                                <td>@a.Activity</td>
+                                                <td>@a.Customer</td>
+                                                <td>
+                                                    @if (a.Status == "Completed")
+                                                    {
+                                                        <span class="badge bg-success">Completed</span>
+                                                    }
+                                                    else if (a.Status == "Pending")
+                                                    {
+                                                        <span class="badge bg-warning">Pending</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-secondary">@a.Status</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="fw-bold">Pending Actions</h6>
+                            <ul class="list-unstyled mt-3">
+                                @foreach (var p in Model.PendingItems)
+                                {
+                                    <li class="mb-2">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="small text-muted">@p.Description</div>
+                                            <div class="text-end"><span class="fw-bold">@p.Count</span></div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

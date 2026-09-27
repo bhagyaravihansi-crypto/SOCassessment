@@ -1,0 +1,158 @@
+@page "/Contact"
+@model ContactModel
+{
+    ViewData["Title"] = "Contact NWSDB";
+}
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 class="display-6 fw-bold">Contact NWSDB</h1>
+                <p class="lead text-muted">We are here to help. Get in touch with the National Water Supply and Drainage Board.</p>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold">Need assistance?</h6>
+                        <p class="text-muted">Use the contact form or the contact details to reach our support team. (Demo information shown.)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container py-4">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold">National Water Supply and Drainage Board</h6>
+                    <p class="text-muted small mb-1"><strong>Address</strong><br />123 Waterworks Ave, Capital City (Demo)</p>
+                    <p class="text-muted small mb-1"><strong>Phone</strong><br />+1 (555) 123-4567 (Demo)</p>
+                    <p class="text-muted small mb-1"><strong>Email</strong><br />support@nwsdb.demo (Demo)</p>
+                    <p class="text-muted small mb-0"><strong>Working Hours</strong><br />Mon - Fri, 8:30 AM - 4:30 PM</p>
+                    <hr />
+                    <p class="small text-muted mb-0">These are sample/demo contact details for the NWSDB web application demonstration.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold">Send us a message</h6>
+
+                    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+                    {
+                        <div class="alert alert-success">@Model.StatusMessage</div>
+                    }
+
+                    <form method="post" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="FullName" class="form-label">Full Name</label>
+                                <input asp-for="FullName" class="form-control" />
+                                <span asp-validation-for="FullName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label">Email Address</label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Subject" class="form-label">Subject</label>
+                                <input asp-for="Subject" class="form-control" />
+                                <span asp-validation-for="Subject" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Message" class="form-label">Message</label>
+                                <textarea asp-for="Message" class="form-control" rows="6"></textarea>
+                                <span asp-validation-for="Message" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <button type="submit" class="btn btn-primary">Send Message</button>
+                                <a class="btn btn-link text-muted" href="/Contact">Clear</a>
+                            </div>
+                            <div class="small text-muted">We will respond within 2 business days (demo).</div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold">Frequently Asked Questions</h6>
+                        <div class="accordion mt-3" id="faqAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="faq1">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                        How can I view my current bill?
+                                    </button>
+                                </h2>
+                                <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="faq1" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">Log in to your customer account and select "Current Bill" to view billing details and due dates.</div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="faq2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                        How can I make an online payment?
+                                    </button>
+                                </h2>
+                                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faq2" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">Use the "Online Payment" page after logging in to pay using card, mobile or bank transfer (demo).</div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="faq3">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                        How can I view my water usage?
+                                    </button>
+                                </h2>
+                                <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faq3" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">Navigate to "Water Usage" in your dashboard to see monthly consumption and meter readings.</div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="faq4">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                        How can I update my customer details?
+                                    </button>
+                                </h2>
+                                <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="faq4" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">Visit the "Customer Profile" page to view and request updates to your account information (demo).</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 p-4 bg-primary text-white rounded shadow-sm text-center">
+                <h4 class="fw-bold">Manage Your Water Account Easily</h4>
+                <p class="mb-3">Access your bills, monitor water usage, make payments and manage your NWSDB account from one convenient platform.</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <a class="btn btn-light" href="/Login">Login</a>
+                    <a class="btn btn-outline-light" href="/Register">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,168 @@
+@page "/Admin/Usage"
+@model UsageModel
+
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-3 mb-4">
+            <partial name="_AdminSidebar" />
+        </div>
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h3 class="fw-bold">Water Usage Management</h3>
+                    <p class="text-muted mb-0">Monitor customer water consumption and meter readings.</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" onclick="alert('Demo: Add Meter Reading (UI only)')">Add Meter Reading</button>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Total Customers</small>
+                        <div class="h4 fw-bold">@Model.TotalCustomers</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Total Usage</small>
+                        <div class="h4 fw-bold">@Model.TotalUsage m³</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Average Monthly Usage</small>
+                        <div class="h4 fw-bold">@Model.AverageMonthlyUsage m³</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">High Usage Accounts</small>
+                        <div class="h4 fw-bold text-danger">@Model.HighUsageAccounts</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <form method="get" class="row g-2 align-items-end">
+                        <div class="col-md-4">
+                            <label class="form-label small">Search Customer / Account</label>
+                            <input asp-for="SearchTerm" class="form-control" placeholder="Name or account number" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Billing Month</label>
+                            <select asp-for="BillingMonthFilter" class="form-select">
+                                <option value="All">All</option>
+                                @foreach (var m in Model.Months)
+                                {
+                                    <option value="@m.Label">@m.Label</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Usage Status</label>
+                            <select asp-for="StatusFilter" class="form-select">
+                                <option value="All">All</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                            <a class="btn btn-outline-secondary" href="/Admin/Usage">Clear</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold">Customer Water Usage</h6>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-sm align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Customer ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Account Number</th>
+                                    <th>Billing Month</th>
+                                    <th>Prev Reading</th>
+                                    <th>Curr Reading</th>
+                                    <th>Units (m³)</th>
+                                    <th>Usage Status</th>
+                                    <th>Reading Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var u in Model.UsageRecords)
+                                {
+                                    <tr>
+                                        <td>@u.CustomerId</td>
+                                        <td>@u.CustomerName</td>
+                                        <td>@u.AccountNumber</td>
+                                        <td>@u.BillingMonth</td>
+                                        <td>@u.PreviousReading</td>
+                                        <td>@u.CurrentReading</td>
+                                        <td>@u.UnitsConsumed</td>
+                                        <td>
+                                            @if (u.UsageStatus == "Normal") { <span class="badge bg-success">Normal</span> }
+                                            else if (u.UsageStatus == "Moderate") { <span class="badge bg-warning">Moderate</span> }
+                                            else { <span class="badge bg-danger">High</span> }
+                                        </td>
+                                        <td>@u.ReadingDate.ToString("dd MMM yyyy")</td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-outline-primary me-1" onclick="alert('Demo: View @u.CustomerId')">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="alert('Demo: Edit Reading for @u.CustomerId')">Edit Reading</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-lg-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="fw-bold">Monthly Usage Overview</h6>
+                            <div class="mt-3">
+                                @{
+                                    var max = Model.Months.Count > 0 ? Model.Months.Max(m => m.Usage) : 1;
+                                }
+                                @foreach (var m in Model.Months)
+                                {
+                                    var pct = max > 0 ? (int)Math.Round((double)m.Usage / max * 100) : 0;
+                                    <div class="mb-2">
+                                        <div class="d-flex justify-content-between small text-muted">
+                                            <div>@m.Label</div>
+                                            <div>@m.Usage m³</div>
+                                        </div>
+                                        <div class="progress" style="height:8px">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width:@pct%" aria-valuenow="@pct" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="fw-bold">Water Usage Monitoring</h6>
+                            <p class="text-muted small mb-0">Administrators can monitor customer water consumption using meter readings and identify accounts with higher-than-normal usage. The data shown on this page is sample/demo data for UI demonstration only.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

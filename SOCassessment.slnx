@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="NWSDB.API/NWSDB.API.csproj" />
+  <Project Path="NWSDB.BusinessLogic/NWSDB.BusinessLogic.csproj" />
+  <Project Path="NWSDB.DataAccess/NWSDB.DataAccess.csproj" />
+  <Project Path="NWSDB.ServiceHost/NWSDB.ServiceHost.csproj" />
+  <Project Path="NWSDBDesktopApp/NWSDBDesktopApp.csproj" />
+  <Project Path="NWSDBWebApp/NWSDBWebApp.csproj" />
+</Solution>

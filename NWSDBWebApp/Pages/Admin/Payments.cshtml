@@ -1,0 +1,175 @@
+@page "/Admin/Payments"
+@model PaymentsModel
+
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-3 mb-4">
+            <partial name="_AdminSidebar" />
+        </div>
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h3 class="fw-bold">Payment Management</h3>
+                    <p class="text-muted mb-0">View and manage customer water bill payment transactions.</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" onclick="alert('Demo: View Payment Reports')">View Payment Reports</button>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Total Payments</small>
+                        <div class="h4 fw-bold">@Model.TotalPayments</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Successful Payments</small>
+                        <div class="h4 fw-bold text-success">@Model.SuccessfulPayments</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Pending Payments</small>
+                        <div class="h4 fw-bold text-warning">@Model.PendingPayments</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm h-100">
+                        <small class="text-muted">Failed Payments</small>
+                        <div class="h4 fw-bold text-danger">@Model.FailedPayments</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <form method="get" class="row g-2 align-items-end">
+                        <div class="col-md-4">
+                            <label class="form-label small">Search (Customer / Account / Reference)</label>
+                            <input asp-for="SearchTerm" class="form-control" placeholder="Search by name, account, or reference" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Payment Method</label>
+                            <select asp-for="MethodFilter" class="form-select">
+                                <option value="All">All</option>
+                                <option value="Card">Card</option>
+                                <option value="Mobile">Mobile</option>
+                                <option value="Bank">Bank</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Payment Status</label>
+                            <select asp-for="StatusFilter" class="form-select">
+                                <option value="All">All</option>
+                                <option value="Successful">Successful</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Failed">Failed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                            <a class="btn btn-outline-secondary" href="/Admin/Payments">Clear</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold">Payment Transactions</h6>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-sm align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Payment ID</th>
+                                    <th>Customer ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Bill ID</th>
+                                    <th>Payment Date</th>
+                                    <th>Method</th>
+                                    <th>Amount</th>
+                                    <th>Reference</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var p in Model.Payments)
+                                {
+                                    <tr>
+                                        <td>@p.PaymentId</td>
+                                        <td>@p.CustomerId</td>
+                                        <td>@p.CustomerName</td>
+                                        <td>@p.BillId</td>
+                                        <td>@p.PaymentDate.ToString("dd MMM yyyy")</td>
+                                        <td>@p.PaymentMethod</td>
+                                        <td>@p.Amount.ToString("C")</td>
+                                        <td>@p.Reference</td>
+                                        <td>
+                                            @if (p.Status == "Successful")
+                                            {
+                                                <span class="badge bg-success">Successful</span>
+                                            }
+                                            else if (p.Status == "Pending")
+                                            {
+                                                <span class="badge bg-warning">Pending</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Failed</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-outline-primary me-1" onclick="alert('Demo: View @p.PaymentId')">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="alert('Demo: View Bill @p.BillId')">View Bill</button>
+                                            <button type="button" class="btn btn-sm btn-outline-success" onclick="alert('Demo: Verify @p.PaymentId')">Verify</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-lg-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="fw-bold">Recent Payment Activity</h6>
+                            <ul class="list-unstyled mt-3">
+                                @foreach (var a in Model.RecentActivity)
+                                {
+                                    <li class="mb-2 d-flex justify-content-between">
+                                        <div>
+                                            <div class="small">@a.Date.ToString("dd MMM") - @a.Description</div>
+                                            <div class="text-muted small">@a.Details</div>
+                                        </div>
+                                        <div>
+                                            @if (a.Status == "Successful") { <span class="badge bg-success">@a.Status</span> }
+                                            else if (a.Status == "Pending") { <span class="badge bg-warning">@a.Status</span> }
+                                            else { <span class="badge bg-danger">@a.Status</span> }
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="fw-bold">Payment Management</h6>
+                            <p class="text-muted small mb-0">Administrators can monitor customer payment transactions, payment methods, amounts and payment status. The data shown on this page is sample/demo information for UI demonstration only.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

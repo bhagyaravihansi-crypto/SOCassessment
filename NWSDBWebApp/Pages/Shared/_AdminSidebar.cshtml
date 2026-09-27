@@ -1,0 +1,16 @@
+@* Admin sidebar partial *@
+@{
+    var active = ViewData["ActiveAdmin"] as string ?? "Dashboard";
+}
+
+<nav class="nav flex-column nav-pills p-3 bg-white rounded shadow-sm sticky-top">
+    <a class="nav-link mb-2 fw-bold text-primary" href="/Admin/Dashboard">Admin</a>
+    <a class="nav-link @(active=="Dashboard"?"active":"")" href="/Admin/Dashboard">Dashboard</a>
+    <a class="nav-link @(active=="Customers"?"active":"")" href="/Admin/Customers">Customer Management</a>
+    <a class="nav-link @(active=="Bills"?"active":"")" href="/Admin/Bills">Bill Management</a>
+    <a class="nav-link @(active=="Payments"?"active":"")" href="/Admin/Payments">Payment Management</a>
+    <a class="nav-link @(active=="Usage"?"active":"")" href="/Admin/Usage">Water Usage Management</a>
+    <div class="mt-3 border-top pt-3">
+        <a class="nav-link text-danger" href="/Login">Logout</a>
+    </div>
+</nav>

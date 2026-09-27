@@ -1,0 +1,16 @@
+@* Customer sidebar partial *@
+@{
+    var active = ViewData["ActiveDashboard"] as string ?? "Dashboard";
+}
+
+<nav class="nav flex-column nav-pills p-3 bg-white rounded shadow-sm sticky-top">
+    <a class="nav-link mb-2 fw-bold text-primary" href="/Customer/Dashboard">Dashboard</a>
+    <a class="nav-link" href="/Customer/CurrentBill">Current Bill</a>
+    <a class="nav-link" href="/Customer/WaterUsage">Water Usage</a>
+    <a class="nav-link" href="/Customer/OnlinePayment">Online Payment</a>
+    <a class="nav-link" href="/Customer/PaymentHistory">Payment History</a>
+    <a class="nav-link" href="/Customer/Profile">Customer Profile</a>
+    <div class="mt-3 border-top pt-3">
+        <a class="nav-link text-danger" href="/">Logout</a>
+    </div>
+</nav>

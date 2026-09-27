@@ -1,0 +1,62 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+:root {
+  --nwsdb-blue: #0b6fb8;
+  --nwsdb-dark: #063a5a;
+  --muted: #6c757d;
+}
+
+/* Hero */
+.hero-visual {
+  background: linear-gradient(135deg, var(--nwsdb-blue), #0a8bd6);
+  color: #fff;
+}
+
+.mock-card { max-width: 320px; }
+.stat-card { min-width: 110px; }
+
+/* Footer */
+.nwsdb-footer { background: #f8f9fb; border-top: 1px solid #e9ecef; }
+
+/* Buttons */
+.btn-primary { background-color: var(--nwsdb-blue); border-color: var(--nwsdb-blue); }
+.btn-primary:hover { background-color: #0a5fa0; border-color: #09507f; }
+
+/* Cards */
+.card .card-title { color: var(--nwsdb-dark); }
+
+/* Responsive tweaks */
+@media (max-width: 767.98px) {
+  .hero { padding-top: 3rem; padding-bottom: 3rem; }
+  .hero-visual { padding: 2rem; }
+}

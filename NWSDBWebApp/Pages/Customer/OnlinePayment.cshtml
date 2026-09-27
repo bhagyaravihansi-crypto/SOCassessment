@@ -1,0 +1,384 @@
+@page "/Customer/OnlinePayment"
+@model OnlinePaymentModel
+
+@{
+    ViewData["Title"] = "Online Payment";
+    ViewData["ActiveDashboard"] = "OnlinePayment";
+
+    bool isSuccess = !string.IsNullOrEmpty(Model.Message)
+        && Model.Message.StartsWith("Payment of", StringComparison.OrdinalIgnoreCase);
+}
+
+<div class="container py-4">
+
+    <div class="row">
+
+        <!-- Customer Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <partial name="_CustomerSidebar" />
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-start mb-4">
+
+                <div>
+                    <h3 class="fw-bold">
+                        Online Payment
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Make a secure payment for your NWSDB account
+                    </p>
+                </div>
+
+                <div class="text-end">
+                    <small class="text-muted">
+                        Account
+                    </small>
+
+                    <div class="fw-semibold">
+                        @Model.AccountNumber
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Dynamic Success / Error Message -->
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert @(isSuccess ? "alert-success" : "alert-danger") shadow-sm mb-4">
+
+                    <div class="fw-bold mb-1">
+
+                        <i class="bi @(isSuccess
+                            ? "bi-check-circle"
+                            : "bi-exclamation-triangle") me-2"></i>
+
+                        @(isSuccess
+                            ? "Payment Successful"
+                            : "Payment Error")
+
+                    </div>
+
+                    <div>
+                        @Model.Message
+                    </div>
+
+                </div>
+            }
+
+            <div class="row g-4">
+
+                <!-- PAYMENT FORM -->
+                <div class="col-lg-7">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body p-4">
+
+                            <h5 class="fw-bold mb-4">
+                                Payment Details
+                            </h5>
+
+                            <form method="post">
+
+                                <!-- Payment Amount -->
+                                <div class="mb-3">
+
+                                    <label asp-for="Amount"
+                                           class="form-label fw-semibold">
+                                        Payment Amount
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <span class="input-group-text">
+                                            LKR
+                                        </span>
+
+                                        <input asp-for="Amount"
+                                               class="form-control"
+                                               type="number"
+                                               min="0.01"
+                                               max="1000000"
+                                               step="0.01"
+                                               placeholder="Enter payment amount" />
+
+                                    </div>
+
+                                    <span asp-validation-for="Amount"
+                                          class="text-danger">
+                                    </span>
+
+                                    <small class="text-muted">
+                                        Current bill amount:
+                                        LKR @Model.BillAmount.ToString("N2")
+                                    </small>
+
+                                </div>
+
+                                <!-- Payment Method -->
+                                <div class="mb-3">
+
+                                    <label asp-for="PaymentMethod"
+                                           class="form-label fw-semibold">
+                                        Payment Method
+                                    </label>
+
+                                    <select asp-for="PaymentMethod"
+                                            class="form-select">
+
+                                        <option value="Card">
+                                            Credit / Debit Card
+                                        </option>
+
+                                        <option value="Mobile">
+                                            Mobile Payment
+                                        </option>
+
+                                        <option value="Bank">
+                                            Bank Payment
+                                        </option>
+
+                                    </select>
+
+                                    <span asp-validation-for="PaymentMethod"
+                                          class="text-danger">
+                                    </span>
+
+                                </div>
+
+                                <!-- Cardholder Name -->
+                                <div class="mb-3">
+
+                                    <label asp-for="CardholderName"
+                                           class="form-label fw-semibold">
+                                        Cardholder Name
+                                    </label>
+
+                                    <input asp-for="CardholderName"
+                                           class="form-control"
+                                           placeholder="Enter cardholder name" />
+
+                                </div>
+
+                                <!-- Card Number -->
+                                <div class="mb-3">
+
+                                    <label asp-for="CardNumber"
+                                           class="form-label fw-semibold">
+                                        Card Number
+                                    </label>
+
+                                    <input asp-for="CardNumber"
+                                           class="form-control"
+                                           type="text"
+                                           maxlength="19"
+                                           placeholder="xxxx xxxx xxxx xxxx" />
+
+                                </div>
+
+                                <!-- Expiry + CVV -->
+                                <div class="row">
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label asp-for="Expiry"
+                                               class="form-label fw-semibold">
+                                            Expiry Date
+                                        </label>
+
+                                        <input asp-for="Expiry"
+                                               class="form-control"
+                                               type="text"
+                                               placeholder="MM/YY"
+                                               maxlength="5" />
+
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label asp-for="CVV"
+                                               class="form-label fw-semibold">
+                                            CVV
+                                        </label>
+
+                                        <input asp-for="CVV"
+                                               class="form-control"
+                                               type="password"
+                                               maxlength="4"
+                                               placeholder="123" />
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Save Card -->
+                                <div class="form-check mb-4">
+
+                                    <input asp-for="SaveCard"
+                                           class="form-check-input" />
+
+                                    <label asp-for="SaveCard"
+                                           class="form-check-label">
+                                        Save card for future payments
+                                    </label>
+
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="d-flex gap-2">
+
+                                    <button type="submit"
+                                            class="btn btn-primary px-4">
+
+                                        <i class="bi bi-credit-card me-2"></i>
+                                        Pay Now
+
+                                    </button>
+
+                                    <a href="/Customer/CurrentBill"
+                                       class="btn btn-outline-secondary">
+
+                                        Cancel
+
+                                    </a>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- PAYMENT SUMMARY -->
+                <div class="col-lg-5">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body p-4">
+
+                            <h5 class="fw-bold mb-4">
+                                Payment Summary
+                            </h5>
+
+                            <!-- Account Number -->
+                            <div class="d-flex justify-content-between mb-3">
+
+                                <span class="text-muted">
+                                    Account Number
+                                </span>
+
+                                <strong>
+                                    @Model.AccountNumber
+                                </strong>
+
+                            </div>
+
+                            <!-- Billing Period -->
+                            <div class="d-flex justify-content-between mb-3">
+
+                                <span class="text-muted">
+                                    Billing Period
+                                </span>
+
+                                <strong>
+                                    @Model.BillingPeriod
+                                </strong>
+
+                            </div>
+
+                            <!-- Current Bill -->
+                            <div class="d-flex justify-content-between mb-3">
+
+                                <span class="text-muted">
+                                    Current Bill
+                                </span>
+
+                                <strong>
+                                    LKR @Model.BillAmount.ToString("N2")
+                                </strong>
+
+                            </div>
+
+                            <hr />
+
+                            <!-- Payment Amount -->
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <span class="fw-semibold">
+                                    Payment Amount
+                                </span>
+
+                                <span class="h4 fw-bold text-primary mb-0">
+                                    LKR @Model.Amount.ToString("N2")
+                                </span>
+
+                            </div>
+
+                            <!-- Processing Fee -->
+                            @if (Model.ProcessingFee > 0)
+                            {
+                                <div class="d-flex justify-content-between mt-3">
+
+                                    <span class="text-muted">
+                                        Processing Fee
+                                    </span>
+
+                                    <span>
+                                        LKR @Model.ProcessingFee.ToString("N2")
+                                    </span>
+
+                                </div>
+
+                                <hr />
+
+                                <div class="d-flex justify-content-between">
+
+                                    <span class="fw-bold">
+                                        Total Payment
+                                    </span>
+
+                                    <span class="fw-bold text-primary">
+                                        LKR @Model.TotalPayable.ToString("N2")
+                                    </span>
+
+                                </div>
+                            }
+
+                            <!-- Information -->
+                            <div class="alert alert-light border mt-4 mb-0">
+
+                                <small class="text-muted">
+                                    You can enter any payment amount.
+                                    The amount may be lower or higher than
+                                    the current bill amount.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

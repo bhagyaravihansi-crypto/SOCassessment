@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NWSDB - National Water Supply & Drainage Board</title>
+    <meta name="description" content="NWSDB - Online water bill payments, usage details and customer services" />
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NWSDBWebApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
+                        <path d="M12 2C8 8 6 11 6 14a6 6 0 0012 0c0-3-2-6-6-12z" fill="#0b6fb8"/>
+                        <circle cx="12" cy="16" r="2" fill="#ffffff"/>
+                    </svg>
+                    <span class="fw-bold text-primary">NWSDB</span>
+                    <small class="text-muted ms-2">Customer Portal</small>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Contact">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary ms-2" href="/Register">Register</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="nwsdb-footer mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-primary">NWSDB</h5>
+                    <p class="text-muted small">National Water Supply & Drainage Board — reliable water services and convenient online bill payments.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6 class="fw-bold">Contact</h6>
+                    <p class="mb-0 text-muted small">Address: 123 Waterworks Ave, Capital City</p>
+                    <p class="mb-0 text-muted small">Phone: +1 (555) 123-4567</p>
+                    <p class="mb-0 text-muted small">Email: support@nwsdb.gov</p>
+                </div>
+                <div class="col-md-4 mb-3 text-md-end">
+                    <h6 class="fw-bold">Quick Links</h6>
+                    <a class="d-block text-decoration-none text-muted" href="/">Home</a>
+                    <a class="d-block text-decoration-none text-muted" href="/Features">Features</a>
+                    <a class="d-block text-decoration-none text-muted" href="/Contact">Contact Us</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center text-muted small mt-3">&copy; 2026 NWSDB. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,294 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="hero bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <!-- Left Side -->
+            <div class="col-lg-6">
+
+                <h1 class="display-5 fw-bold">
+                    Pay your water bill online fast, secure and convenient
+                </h1>
+
+                <p class="lead text-muted">
+                    NWSDB online payments make it easy to view usage,
+                    pay bills and manage your account from anywhere.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="d-flex flex-wrap gap-2">
+
+                    <!-- Quick Payment -->
+                    <a asp-page="/OneTimePayment"
+                       class="btn btn-primary btn-lg">
+                        <i class="bi bi-lightning-charge-fill me-2"></i>
+                        Quick Payment
+                    </a>
+
+                    <!-- Login -->
+                    <a href="/Login"
+                       class="btn btn-outline-primary btn-lg">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>
+                        Login / Get Started
+                    </a>
+
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- REAL DATABASE STATISTICS -->
+                <!-- ========================= -->
+
+                <div class="mt-4 d-flex flex-wrap gap-3">
+
+                    <!-- Total Customers -->
+                    <div class="stat-card p-3 bg-white rounded shadow-sm">
+
+                        <div class="h4 mb-0 text-primary">
+                            @Model.CustomerCount
+                        </div>
+
+                        <small class="text-muted">
+                            Registered Customers
+                        </small>
+
+                    </div>
+
+
+                    <!-- Pending Bills -->
+                    <div class="stat-card p-3 bg-white rounded shadow-sm">
+
+                        <div class="h4 mb-0 text-primary">
+                            @Model.PendingBillCount
+                        </div>
+
+                        <small class="text-muted">
+                            Pending Bills
+                        </small>
+
+                    </div>
+
+
+                    <!-- Payments -->
+                    <div class="stat-card p-3 bg-white rounded shadow-sm">
+
+                        <div class="h4 mb-0 text-primary">
+                            @Model.PaymentCount
+                        </div>
+
+                        <small class="text-muted">
+                            Payments Processed
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- RIGHT SIDE -->
+            <!-- ========================= -->
+
+            <div class="col-lg-6 d-none d-lg-block">
+
+                <div class="hero-visual bg-primary text-white rounded p-5">
+
+                    <h3 class="mb-3">
+                        Online Payments
+                    </h3>
+
+                    <p class="small opacity-75">
+                        Fast card and mobile payments, secure processing,
+                        and instant receipts for your convenience.
+                    </p>
+
+
+                    <!-- Account Preview -->
+                    <div class="mock-card mt-4 p-3 bg-white text-dark rounded shadow-sm">
+
+                        <div class="d-flex justify-content-between">
+
+                            <!-- Account -->
+                            <div>
+
+                                <small class="text-muted">
+                                    Account
+                                </small>
+
+                                <div class="fw-bold">
+                                    NWS10001
+                                </div>
+
+                            </div>
+
+
+                            <!-- Outstanding -->
+                            <div class="text-end">
+
+                                <small class="text-muted">
+                                    Outstanding
+                                </small>
+
+                                <div class="fw-bold text-danger">
+                                    LKR 2,450.00
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<!-- ========================= -->
+<!-- MAIN FEATURES -->
+<!-- ========================= -->
+
+<section class="features py-5">
+
+    <div class="container">
+
+        <!-- Section Heading -->
+        <div class="row mb-4">
+
+            <div class="col text-center">
+
+                <h2 class="fw-bold">
+                    Main Features
+                </h2>
+
+                <p class="text-muted">
+                    Everything you need to manage payments and monitor
+                    water usage.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- FEATURE CARDS -->
+        <!-- ========================= -->
+
+        <div class="row g-4">
+
+
+            <!-- ========================= -->
+            <!-- ONLINE PAYMENT -->
+            <!-- ========================= -->
+
+            <div class="col-md-4">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+
+                            <i class="bi bi-credit-card-2-front-fill text-primary fs-2"></i>
+
+                        </div>
+
+                        <h5 class="card-title text-primary">
+                            Online Payment
+                        </h5>
+
+                        <p class="card-text text-muted">
+                            Pay bills quickly using card or mobile payment
+                            methods and receive instant confirmation.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ========================= -->
+            <!-- PAYMENT UPDATES -->
+            <!-- ========================= -->
+
+            <div class="col-md-4">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+
+                            <i class="bi bi-receipt-cutoff text-primary fs-2"></i>
+
+                        </div>
+
+                        <h5 class="card-title text-primary">
+                            Real-time Payment Updates
+                        </h5>
+
+                        <p class="card-text text-muted">
+                            Track your payment status and view payment
+                            details immediately after completing a payment.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ========================= -->
+            <!-- WATER USAGE -->
+            <!-- ========================= -->
+
+            <div class="col-md-4">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+
+                            <i class="bi bi-droplet-fill text-primary fs-2"></i>
+
+                        </div>
+
+                        <h5 class="card-title text-primary">
+                            Water Usage Details
+                        </h5>
+
+                        <p class="card-text text-muted">
+                            View monthly water consumption and usage trends
+                            to manage your water usage better.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
